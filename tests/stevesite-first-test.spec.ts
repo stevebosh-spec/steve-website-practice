@@ -15,9 +15,7 @@ test.describe("Test suite 1", () => {
     await expect(page.getByText("3D Design page")).toHaveText("3D Design page");
     await page.getByRole("link", { name: "Animation / Previs" }).click();
     // add assertion that Animation page has loaded
-    await expect(page.getByText("Animation / FILM")).toHaveText(
-      "Animation / FILM",
-    );
+    await expect(page.getByText("Animation / FILM")).toHaveText("Animation / FILM");
     // Click on HOME button
     await page.getByRole("link", { name: "Home" }).click();
   });
@@ -34,8 +32,32 @@ test.describe("Test suite 2", () => {
     await page.getByRole('textbox', { name: 'Subject' }).fill('This is the SUBJECT text')
     // Add assertion that 'Subject' field has been filed in with an email address
     await expect(page.locator('[id="input_comp-kg7gxrri"]')).toHaveValue('This is the SUBJECT text')
-    await page.getByPlaceholder('Message').fill('THis is the message text,')
+    await page.getByPlaceholder('Message').fill('This is the message text,')
     // Add assertion that 'Message' field has been filed in with text
-await expect(page.locator('[id="textarea_comp-kg7gxrrl1"]')).toHaveValue('THis is the message text,')
+    await expect(page.locator('[id="textarea_comp-kg7gxrrl1"]')).toHaveValue('This is the message text,')
   });
+});
+
+test.describe("Test suite 3", () => {
+  
+  test('Name field Mandatory sections', async ({ page }) => {
+    await page.getByRole('textbox', { name: 'Name *' }).fill('Steven');
+    await page.getByTestId('buttonElement').click();
+    // Assert Mandatory field error is displayed
+  });
+
+  test('Email field Mandatory sections', async ({ page }) => {
+    await page.getByRole('textbox', { name: 'Email *' }).fill('testers@yahoo.co.uk');
+    await page.getByTestId('buttonElement').click();
+    // Assert Mandatory field error is displayed
+  });
+
+  test('Invalid email address Mandatory error', async ({ page }) => {
+    await page.getByRole('textbox', { name: 'Name *' }).fill('Steven');
+    await page.getByTestId('buttonElement').click();
+    await page.getByRole('textbox', { name: 'Email *' }).fill('testehoo.co.uk');
+    await page.getByTestId('buttonElement').click();
+    // Assert Mandatory field error is displayed
+  });
+  
 });
